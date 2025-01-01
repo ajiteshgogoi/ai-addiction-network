@@ -148,11 +148,11 @@ const App: React.FC = () => {
             Welcome to AI Addiction Network!
           </h1>
           <p className="mb-8">
-          💉 In a world where virtual experiences rule, you're an underground
+            💉 In a world where virtual experiences rule, you're an underground
             trader dealing in addictive AI simulations aka Virtual Drugs. 💊
           </p>
           <p className="mb-8">
-          🤑 Buy low in one location, sell high in another. And avoid government
+            🤑 Buy low in one location, sell high in another. And avoid government
             crackdowns as you race to amass the ultimate fortune!
           </p>
           <p className="mb-8">
@@ -220,15 +220,15 @@ const App: React.FC = () => {
               ))}
             </tbody>
           </table>
-          <div className="flex justify-between">
-            <p>Travel to:</p>
+          <div className="flex flex-wrap justify-between gap-2">
+            <p className="w-full">Travel to:</p>
             {locations
               .filter((location) => location !== currentLocation)
               .map((location, index) => (
                 <button
                   key={index}
                   onClick={() => handleTravel(location)}
-                  className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-1 px-2 rounded"
+                  className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-1 px-2 rounded flex-1 sm:flex-none"
                 >
                   {location}
                 </button>

@@ -148,11 +148,11 @@ const App: React.FC = () => {
             Welcome to AI Addiction Network!
           </h1>
           <p className="mb-8">
-            In a world where virtual experiences rule, you're an underground
-            trader dealing in addictive AI simulations.
+          💉 In a world where virtual experiences rule, you're an underground
+            trader dealing in addictive AI simulations aka Virtual Drugs. 💊
           </p>
           <p className="mb-8">
-            Buy low in one location, sell high in another. And avoid government
+          🤑 Buy low in one location, sell high in another. And avoid government
             crackdowns as you race to amass the ultimate fortune!
           </p>
           <p className="mb-8">
@@ -169,7 +169,7 @@ const App: React.FC = () => {
         <div className="text-center">
           <h1 className="text-4xl font-bold mb-4">Game Over!</h1>
           <p className="mb-8">
-            You earned ${cash.toLocaleString()} - AI Drug Tycoon!
+            You earned ${cash.toLocaleString()}, AI Drug Tycoon!
           </p>
           <button
             onClick={handleRestart}

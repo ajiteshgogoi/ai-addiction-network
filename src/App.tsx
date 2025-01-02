@@ -84,7 +84,7 @@ const App: React.FC = () => {
 
   const handleBuy = (drug: Drug) => {
     if (cash >= drug.price) {
-      setCash(cash - drug.price);
+      setCash(Math.max(0, cash - drug.price));
       setStash({ ...stash, [drug.name]: stash[drug.name] + 1 });
     }
   };
@@ -136,14 +136,14 @@ const App: React.FC = () => {
           message: "Addict Overdose! You lost some cash.",
           effect: () => {
             const penalty = Math.floor(Math.random() * 300) + 1;
-            setCash(cash - penalty);
+            setCash(Math.max(0, cash - penalty));
           },
         },
         {
           message: "Tech Glitch! You lost some cash.",
           effect: () => {
             const penalty = Math.floor(Math.random() * 300) + 1;
-            setCash(cash - penalty);
+            setCash(Math.max(0, cash - penalty));
           },
         },
         {

@@ -223,39 +223,41 @@ const App: React.FC = () => {
             </div>
             <p>Current Location: {currentLocation}</p>
           </div>
-          <table className="w-full mb-8 border-collapse border border-purple-500">
-            <thead>
-              <tr className="bg-purple-900">
-                <th className="p-2 border border-purple-500 text-left">Drug</th>
-                <th className="p-2 border border-purple-500 text-left">Price</th>
-                <th className="p-2 border border-purple-500 text-left">Inventory</th>
-                <th className="p-2 border border-purple-500 text-left">Actions</th>
-              </tr>
-            </thead>
-            <tbody>
-              {drugPrices.map((drug, index) => (
-                <tr key={index} className="border-b border-purple-500">
-                  <td className="p-2 border border-purple-500">{drug.name}</td>
-                  <td className="p-2 border border-purple-500">${drug.price.toLocaleString()}</td>
-                  <td className="p-2 border border-purple-500">{inventory[drug.name]}</td>
-                  <td className="p-2 border border-purple-500">
-                    <button
-                      onClick={() => handleBuy(drug)}
-                      className="bg-green-600 hover:bg-green-700 text-white font-bold py-1 px-2 rounded mr-2 transition-all duration-300 transform hover:scale-105"
-                    >
-                      Buy
-                    </button>
-                    <button
-                      onClick={() => handleSell(drug)}
-                      className="bg-red-600 hover:bg-red-700 text-white font-bold py-1 px-2 rounded transition-all duration-300 transform hover:scale-105"
-                    >
-                      Sell
-                    </button>
-                  </td>
+          <div className="overflow-x-auto">
+            <table className="w-full min-w-[600px] mb-8 border-collapse border border-purple-500">
+              <thead>
+                <tr className="bg-purple-900">
+                  <th className="p-2 border border-purple-500 text-left">Drug</th>
+                  <th className="p-2 border border-purple-500 text-left">Price</th>
+                  <th className="p-2 border border-purple-500 text-left">Inventory</th>
+                  <th className="p-2 border border-purple-500 text-left">Actions</th>
                 </tr>
-              ))}
-            </tbody>
-          </table>
+              </thead>
+              <tbody>
+                {drugPrices.map((drug, index) => (
+                  <tr key={index} className="border-b border-purple-500">
+                    <td className="p-2 border border-purple-500">{drug.name}</td>
+                    <td className="p-2 border border-purple-500">${drug.price.toLocaleString()}</td>
+                    <td className="p-2 border border-purple-500">{inventory[drug.name]}</td>
+                    <td className="p-2 border border-purple-500">
+                      <button
+                        onClick={() => handleBuy(drug)}
+                        className="bg-green-600 hover:bg-green-700 text-white font-bold py-1 px-2 rounded mr-2 transition-all duration-300 transform hover:scale-105"
+                      >
+                        Buy
+                      </button>
+                      <button
+                        onClick={() => handleSell(drug)}
+                        className="bg-red-600 hover:bg-red-700 text-white font-bold py-1 px-2 rounded transition-all duration-300 transform hover:scale-105"
+                      >
+                        Sell
+                      </button>
+                    </td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
           <div className="flex flex-wrap justify-between gap-2">
             <p className="w-full text-gray-300">Travel to:</p>
             {locations

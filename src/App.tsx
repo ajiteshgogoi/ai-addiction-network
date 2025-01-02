@@ -284,7 +284,7 @@ const App: React.FC = () => {
             AI Addiction Network
           </h1>
           <div className="flex justify-between mb-8 text-gray-300">
-            <div>
+            <div className="flex gap-4">
               <p>Cash: ${cash.toLocaleString()}</p>
               <p>Day: {day}/30</p>
               <p>Inventory: {totalStash}/100</p>

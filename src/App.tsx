@@ -349,7 +349,7 @@ const App: React.FC = () => {
                 <button
                   key={index}
                   onClick={() => handleTravel(location)}
-                  className="bg-purple-600 hover:bg-purple-700 text-white font-bold py-1 px-2 rounded flex-1 sm:flex-none transition-all duration-300 transform hover:scale-105"
+                  className="bg-purple-600 hover:bg-purple-700 text-white font-bold py-3 px-6 rounded flex-1 sm:flex-none transition-all duration-300 transform hover:scale-105"
                 >
                   {location}
                 </button>

@@ -160,30 +160,32 @@ const App: React.FC = () => {
   ];
 
   return (
-    <div className="flex flex-col items-center justify-center min- bg-gray-900 text-white p-4">
+    <div className="flex flex-col items-center justify-center min- bg-gray-900 text-white p-4 font-mono">
       {!gameStarted ? (
         <div className="text-center">
-          <h1 className="text-4xl font-bold mb-4">Welcome to AI Addiction Network!</h1>
-          <p className="mb-8">
+          <h1 className="text-4xl font-bold mb-4 bg-clip-text text-transparent bg-gradient-to-r from-purple-400 to-pink-600">
+            Welcome to AI Addiction Network!
+          </h1>
+          <p className="mb-8 text-gray-300">
             💉 In a world where virtual experiences rule, you're an underground trader dealing in addictive AI simulations aka Virtual Drugs. 💊
           </p>
-          <p className="mb-8">
+          <p className="mb-8 text-gray-300">
             🤑 Buy low in one location, sell high in another. And avoid government crackdowns as you race to amass the ultimate fortune!
           </p>
-          <p className="mb-8">Can you dominate the black market and become the AI Tycoon?</p>
+          <p className="mb-8 text-gray-300">Can you dominate the black market and become the AI Tycoon?</p>
           <div className="mb-8">
-            <table className="w-full border-collapse border border-gray-700">
+            <table className="w-full border-collapse border border-purple-500">
               <thead>
-                <tr className="bg-gray-800">
-                  <th className="p-2 border border-gray-700">Drug</th>
-                  <th className="p-2 border border-gray-700">Price Range</th>
+                <tr className="bg-purple-900">
+                  <th className="p-2 border border-purple-500">Drug</th>
+                  <th className="p-2 border border-purple-500">Price Range</th>
                 </tr>
               </thead>
               <tbody>
                 {drugPriceRanges.map((drug, index) => (
-                  <tr key={index} className="border-b border-gray-700">
-                    <td className="p-2 border border-gray-700">{drug.name}</td>
-                    <td className="p-2 border border-gray-700">${drug.min} - ${drug.max}</td>
+                  <tr key={index} className="border-b border-purple-500">
+                    <td className="p-2 border border-purple-500">{drug.name}</td>
+                    <td className="p-2 border border-purple-500">${drug.min} - ${drug.max}</td>
                   </tr>
                 ))}
               </tbody>
@@ -191,57 +193,61 @@ const App: React.FC = () => {
           </div>
           <button
             onClick={() => setGameStarted(true)}
-            className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+            className="bg-purple-600 hover:bg-purple-700 text-white font-bold py-2 px-4 rounded transition-all duration-300 transform hover:scale-105"
           >
             Start Game
           </button>
         </div>
       ) : gameOver ? (
         <div className="text-center">
-          <h1 className="text-4xl font-bold mb-4">Game Over!</h1>
-          <p className="mb-8">You earned ${cash.toLocaleString()}, AI Drug Tycoon!</p>
+          <h1 className="text-4xl font-bold mb-4 bg-clip-text text-transparent bg-gradient-to-r from-purple-400 to-pink-600">
+            Game Over!
+          </h1>
+          <p className="mb-8 text-gray-300">You earned ${cash.toLocaleString()}, AI Drug Tycoon!</p>
           <button
             onClick={handleRestart}
-            className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+            className="bg-purple-600 hover:bg-purple-700 text-white font-bold py-2 px-4 rounded transition-all duration-300 transform hover:scale-105"
           >
             Restart Game
           </button>
         </div>
       ) : (
         <div className="w-full max-w-4xl">
-          <h1 className="text-4xl font-bold mb-8 text-center">AI Addiction Network</h1>
-          <div className="flex justify-between mb-8">
+          <h1 className="text-4xl font-bold mb-8 text-center bg-clip-text text-transparent bg-gradient-to-r from-purple-400 to-pink-600">
+            AI Addiction Network
+          </h1>
+          <div className="flex justify-between mb-8 text-gray-300">
             <div>
               <p>Cash: ${cash.toLocaleString()}</p>
               <p>Day: {day}/30</p>
             </div>
             <p>Current Location: {currentLocation}</p>
           </div>
-          <table className="w-full mb-8 border-collapse border border-gray-700">
+          <table className="w-full mb-8 border-collapse border border-purple-500">
             <thead>
-              <tr className="bg-gray-800">
-                <th className="p-2 border border-gray-700 text-left">Drug</th>
-                <th className="p-2 border border-gray-700 text-left">Price</th>
-                <th className="p-2 border border-gray-700 text-left">Inventory</th>
-                <th className="p-2 border border-gray-700 text-left">Actions</th>
+              <tr className="bg-purple-900">
+                <th className="p-2 border border-purple-500 text-left">Drug</th>
+                <th className="p-2 border border-purple-500 text-left">Price</th>
+                <th className="p-2 border border-purple-500 text-left">Inventory</th>
+                <th className="p-2 border border-purple-500 text-left">Actions</th>
               </tr>
             </thead>
             <tbody>
               {drugPrices.map((drug, index) => (
-                <tr key={index} className="border-b border-gray-700">
-                  <td className="p-2 border border-gray-700">{drug.name}</td>
-                  <td className="p-2 border border-gray-700">${drug.price.toLocaleString()}</td>
-                  <td className="p-2 border border-gray-700">{inventory[drug.name]}</td>
-                  <td className="p-2 border border-gray-700">
+                <tr key={index} className="border-b border-purple-500">
+                  <td className="p-2 border border-purple-500">{drug.name}</td>
+                  <td className="p-2 border border-purple-500">${drug.price.toLocaleString()}</td>
+                  <td className="p-2 border border-purple-500">{inventory[drug.name]}</td>
+                  <td className="p-2 border border-purple-500">
                     <button
                       onClick={() => handleBuy(drug)}
-                      className="bg-green-500 hover:bg-green-700 text-white font-bold py-1 px-2 rounded mr-2"
+                      className="bg-green-600 hover:bg-green-700 text-white font-bold py-1 px-2 rounded mr-2 transition-all duration-300 transform hover:scale-105"
                     >
                       Buy
                     </button>
                     <button
                       onClick={() => handleSell(drug)}
-                      className="bg-red-500 hover:bg-red-700 text-white font-bold py-1 px-2 rounded"
+                      className="bg-red-600 hover:bg-red-700 text-white font-bold py-1 px-2 rounded transition-all duration-300 transform hover:scale-105"
                     >
                       Sell
                     </button>
@@ -251,14 +257,14 @@ const App: React.FC = () => {
             </tbody>
           </table>
           <div className="flex flex-wrap justify-between gap-2">
-            <p className="w-full">Travel to:</p>
+            <p className="w-full text-gray-300">Travel to:</p>
             {locations
               .filter((location) => location !== currentLocation)
               .map((location, index) => (
                 <button
                   key={index}
                   onClick={() => handleTravel(location)}
-                  className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-1 px-2 rounded flex-1 sm:flex-none"
+                  className="bg-purple-600 hover:bg-purple-700 text-white font-bold py-1 px-2 rounded flex-1 sm:flex-none transition-all duration-300 transform hover:scale-105"
                 >
                   {location}
                 </button>
@@ -266,11 +272,11 @@ const App: React.FC = () => {
           </div>
           {eventMessage && (
             <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-75">
-              <div className="bg-gray-800 p-8 rounded">
-                <p className="mb-4">{eventMessage}</p>
+              <div className="bg-purple-900 p-8 rounded">
+                <p className="mb-4 text-gray-300">{eventMessage}</p>
                 <button
                   onClick={() => setEventMessage(null)}
-                  className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+                  className="bg-purple-600 hover:bg-purple-700 text-white font-bold py-2 px-4 rounded transition-all duration-300 transform hover:scale-105"
                 >
                   Close
                 </button>

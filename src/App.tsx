@@ -240,18 +240,20 @@ const App: React.FC = () => {
                     <td className="p-2 border border-purple-500">${drug.price.toLocaleString()}</td>
                     <td className="p-2 border border-purple-500">{stash[drug.name]}</td>
                     <td className="p-2 border border-purple-500">
-                      <button
-                        onClick={() => handleBuy(drug)}
-                        className="bg-green-600 hover:bg-green-700 text-white font-bold py-1 px-2 rounded mr-2 transition-all duration-300 transform hover:scale-105"
-                      >
-                        Buy
-                      </button>
-                      <button
-                        onClick={() => handleSell(drug)}
-                        className="bg-red-600 hover:bg-red-700 text-white font-bold py-1 px-2 rounded transition-all duration-300 transform hover:scale-105"
-                      >
-                        Sell
-                      </button>
+                      <div className="flex gap-2">
+                        <button
+                          onClick={() => handleBuy(drug)}
+                          className="bg-green-600 hover:bg-green-700 text-white font-bold py-1 px-2 rounded transition-all duration-300 transform hover:scale-105"
+                        >
+                          Buy
+                        </button>
+                        <button
+                          onClick={() => handleSell(drug)}
+                          className="bg-red-600 hover:bg-red-700 text-white font-bold py-1 px-2 rounded transition-all duration-300 transform hover:scale-105"
+                        >
+                          Sell
+                        </button>
+                      </div>
                     </td>
                   </tr>
                 ))}

@@ -79,6 +79,7 @@ const App: React.FC = () => {
   const [gameStarted, setGameStarted] = useState(false);
   const [gameOver, setGameOver] = useState(false);
   const [eventMessage, setEventMessage] = useState<string | null>(null);
+  const [specialEvent, setSpecialEvent] = useState<{ drug: string; location: string } | null>(null);
 
   const handleBuy = (drug: Drug) => {
     if (cash >= drug.price) {
@@ -96,8 +97,20 @@ const App: React.FC = () => {
 
   const handleTravel = (location: string) => {
     setCurrentLocation(location);
-    setDrugPrices(generateDrugPrices());
     setDay(day + 1);
+
+    if (specialEvent && location === specialEvent.location) {
+      const drugPriceRange = drugPriceRanges.find(range => range.name === specialEvent.drug);
+      if (drugPriceRange) {
+        const newPrice = drugPriceRange.max * 1.5; // 50% higher than the maximum price
+        setDrugPrices(prevPrices => prevPrices.map(drug =>
+          drug.name === specialEvent.drug ? { ...drug, price: newPrice } : drug
+        ));
+      }
+      setSpecialEvent(null);
+    } else {
+      setDrugPrices(generateDrugPrices());
+    }
 
     if (Math.random() < 0.3) {
       const events = [
@@ -130,11 +143,20 @@ const App: React.FC = () => {
             const drugPriceRange = drugPriceRanges.find(range => range.name === randomDrug.name);
             if (drugPriceRange) {
               const newPrice = Math.floor(drugPriceRange.min * 0.5); // 50% of the minimum price
-              setDrugPrices(prevPrices => prevPrices.map(drug => 
+              setDrugPrices(prevPrices => prevPrices.map(drug =>
                 drug.name === randomDrug.name ? { ...drug, price: newPrice } : drug
               ));
               setEventMessage(`${randomDrug.name} is selling at crazy low rates!`);
             }
+          },
+        },
+        {
+          message: `Addicts in <Location Name> will pay anything for <Drug Name>!`,
+          effect: () => {
+            const randomDrug = initialDrugs[Math.floor(Math.random() * initialDrugs.length)].name;
+            const randomLocation = locations[Math.floor(Math.random() * locations.length)];
+            setSpecialEvent({ drug: randomDrug, location: randomLocation });
+            setEventMessage(`Addicts in ${randomLocation} will pay anything for ${randomDrug}!`);
           },
         },
       ];
@@ -164,6 +186,7 @@ const App: React.FC = () => {
     setGameStarted(false);
     setGameOver(false);
     setEventMessage(null);
+    setSpecialEvent(null);
   };
 
   const drugPriceRanges = [

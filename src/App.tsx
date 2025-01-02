@@ -237,9 +237,12 @@ const App: React.FC = () => {
             💉 In a world where virtual experiences rule, you're an underground trader dealing in addictive AI simulations aka Virtual Drugs. 💊
           </p>
           <p className="mb-8 text-gray-300">
-            🤑 Buy low in one location, sell high in another. And avoid government crackdowns as you race to amass the ultimate fortune!
+            🤑 Buy low in one location, sell high in another. Avoid government crackdowns as you race to amass the ultimate fortune.
           </p>
-          <p className="mb-8 text-gray-300">Can you dominate the black market in 30 days and become the next AI Tycoon?</p>
+          <p className="mb-8 text-gray-300">
+           💰 You have 30 days to dominate the black market and make as much money as possible! 💲
+          </p>          
+          <p className="mb-8 text-gray-300">Can you become the next AI Drug Tycoon?</p>
           <div className="mb-8">
             <table className="w-full border-collapse border border-purple-500">
               <thead>

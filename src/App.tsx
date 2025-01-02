@@ -150,6 +150,15 @@ const App: React.FC = () => {
     setEventMessage(null);
   };
 
+  const drugPriceRanges = [
+    { name: "Lust Forge", min: 300, max: 800 },
+    { name: "Euphoria Hit", min: 150, max: 650 },
+    { name: "Rage X", min: 10, max: 150 },
+    { name: "Trauma Flush", min: 400, max: 1500 },
+    { name: "Scent Heaven", min: 600, max: 2000 },
+    { name: "Life Loop", min: 1500, max: 6000 },
+  ];
+
   return (
     <div className="flex flex-col items-center justify-center min- bg-gray-900 text-white p-4">
       {!gameStarted ? (
@@ -162,6 +171,24 @@ const App: React.FC = () => {
             🤑 Buy low in one location, sell high in another. And avoid government crackdowns as you race to amass the ultimate fortune!
           </p>
           <p className="mb-8">Can you dominate the black market and become the AI Tycoon?</p>
+          <div className="mb-8">
+            <table className="w-full border-collapse border border-gray-700">
+              <thead>
+                <tr className="bg-gray-800">
+                  <th className="p-2 border border-gray-700">Drug</th>
+                  <th className="p-2 border border-gray-700">Price Range</th>
+                </tr>
+              </thead>
+              <tbody>
+                {drugPriceRanges.map((drug, index) => (
+                  <tr key={index} className="border-b border-gray-700">
+                    <td className="p-2 border border-gray-700">{drug.name}</td>
+                    <td className="p-2 border border-gray-700">${drug.min} - ${drug.max}</td>
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </div>
           <button
             onClick={() => setGameStarted(true)}
             className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"

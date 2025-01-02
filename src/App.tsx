@@ -241,7 +241,7 @@ const App: React.FC = () => {
           </p>
           <p className="mb-8 text-gray-300">
            💰 You have 30 days to dominate the black market and make as much money as possible! 💲
-          </p>          
+          </p>
           <p className="mb-8 text-gray-300">Can you become the next AI Drug Tycoon?</p>
           <div className="mb-8">
             <table className="w-full border-collapse border border-purple-500">

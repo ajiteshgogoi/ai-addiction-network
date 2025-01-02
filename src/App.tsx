@@ -296,29 +296,32 @@ const App: React.FC = () => {
                 </tr>
               </thead>
               <tbody>
-                {sortedDrugPrices.map((drug, index) => (
-                  <tr key={index} className="border-b border-purple-500">
-                    <td className="p-2 border border-purple-500">{drug.name}</td>
-                    <td className="p-2 border border-purple-500">${drug.price.toLocaleString()}</td>
-                    <td className="p-2 border border-purple-500">{stash[drug.name]}</td>
-                    <td className="p-2 border border-purple-500">
-                      <div className="flex flex-col sm:flex-row gap-2">
-                        <button
-                          onClick={() => handleBuy(drug)}
-                          className="bg-green-600 hover:bg-green-700 text-white font-bold py-1 px-2 rounded transition-all duration-300 transform hover:scale-105"
-                        >
-                          Buy
-                        </button>
-                        <button
-                          onClick={() => handleSell(drug)}
-                          className="bg-red-600 hover:bg-red-700 text-white font-bold py-1 px-2 rounded transition-all duration-300 transform hover:scale-105"
-                        >
-                          Sell
-                        </button>
-                      </div>
-                    </td>
-                  </tr>
-                ))}
+                {sortedDrugPriceRanges.map((range, index) => {
+                  const drug = drugPrices.find(d => d.name === range.name);
+                  return drug ? (
+                    <tr key={index} className="border-b border-purple-500">
+                      <td className="p-2 border border-purple-500">{drug.name}</td>
+                      <td className="p-2 border border-purple-500">${drug.price.toLocaleString()}</td>
+                      <td className="p-2 border border-purple-500">{stash[drug.name]}</td>
+                      <td className="p-2 border border-purple-500">
+                        <div className="flex flex-col sm:flex-row gap-2">
+                          <button
+                            onClick={() => handleBuy(drug)}
+                            className="bg-green-600 hover:bg-green-700 text-white font-bold py-1 px-2 rounded transition-all duration-300 transform hover:scale-105"
+                          >
+                            Buy
+                          </button>
+                          <button
+                            onClick={() => handleSell(drug)}
+                            className="bg-red-600 hover:bg-red-700 text-white font-bold py-1 px-2 rounded transition-all duration-300 transform hover:scale-105"
+                          >
+                            Sell
+                          </button>
+                        </div>
+                      </td>
+                    </tr>
+                  ) : null;
+                })}
               </tbody>
             </table>
           </div>

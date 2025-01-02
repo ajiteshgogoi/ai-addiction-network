@@ -283,13 +283,23 @@ const App: React.FC = () => {
           <h1 className="text-4xl font-bold mb-8 text-center bg-clip-text text-transparent bg-gradient-to-r from-purple-400 to-pink-600">
             AI Addiction Network
           </h1>
-          <div className="flex justify-between mb-8 text-gray-300">
-            <div className="flex gap-4">
-              <p>Cash: ${cash.toLocaleString()}</p>
-              <p>Day: {day}/30</p>
-              <p>Inventory: {totalStash}/100</p>
+          <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 mb-8 text-gray-300">
+            <div className="bg-purple-800 p-4 rounded-lg">
+              <p className="text-sm text-purple-300">Cash</p>
+              <p className="text-lg font-bold">${cash.toLocaleString()}</p>
             </div>
-            <p>Current Location: {currentLocation}</p>
+            <div className="bg-purple-800 p-4 rounded-lg">
+              <p className="text-sm text-purple-300">Day</p>
+              <p className="text-lg font-bold">{day}/30</p>
+            </div>
+            <div className="bg-purple-800 p-4 rounded-lg">
+              <p className="text-sm text-purple-300">Inventory</p>
+              <p className="text-lg font-bold">{totalStash}/100</p>
+            </div>
+            <div className="bg-purple-800 p-4 rounded-lg">
+              <p className="text-sm text-purple-300">Location</p>
+              <p className="text-lg font-bold">{currentLocation}</p>
+            </div>
           </div>
           <div className="overflow-x-auto">
             <table className="w-full mb-8 border-collapse border border-purple-500">

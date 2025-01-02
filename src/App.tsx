@@ -209,6 +209,7 @@ const App: React.FC = () => {
         </div>
       ) : (
         <div className="w-full max-w-4xl">
+          <h1 className="text-4xl font-bold mb-8 text-center">AI Addiction Network</h1>
           <div className="flex justify-between mb-8">
             <div>
               <p>Cash: ${cash.toLocaleString()}</p>

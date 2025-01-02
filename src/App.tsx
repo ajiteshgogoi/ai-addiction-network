@@ -82,7 +82,7 @@ const App: React.FC = () => {
   const [specialEvent, setSpecialEvent] = useState<{ drug: string; location: string } | null>(null);
   const [cheapDrugEvent, setCheapDrugEvent] = useState<{ drug: string; location: string } | null>(null);
   const [selectedDrug, setSelectedDrug] = useState<Drug | null>(null);
-  const [quantity, setQuantity] = useState(1);
+  const [quantity, setQuantity] = useState<number | string>(1);
   const [isBuying, setIsBuying] = useState(false);
 
   const handleBuy = (drug: Drug) => {
@@ -97,21 +97,22 @@ const App: React.FC = () => {
 
   const handleConfirm = () => {
     if (selectedDrug) {
+      const qty = quantity === "" ? 0 : Number(quantity);
       if (isBuying) {
-        const totalCost = selectedDrug.price * quantity;
+        const totalCost = selectedDrug.price * qty;
         const totalStash = Object.values(stash).reduce((acc, curr) => acc + curr, 0);
-        if (cash >= totalCost && totalStash + quantity <= 100) {
+        if (cash >= totalCost && totalStash + qty <= 100) {
           setCash(Math.max(0, cash - totalCost));
-          setStash({ ...stash, [selectedDrug.name]: stash[selectedDrug.name] + quantity });
-        } else if (totalStash + quantity > 100) {
+          setStash({ ...stash, [selectedDrug.name]: stash[selectedDrug.name] + qty });
+        } else if (totalStash + qty > 100) {
           setEventMessage("Inventory limit reached! You cannot buy more drugs.");
         } else {
           setEventMessage("Not enough cash to buy this quantity.");
         }
       } else {
-        if (stash[selectedDrug.name] >= quantity) {
-          setCash(cash + selectedDrug.price * quantity);
-          setStash({ ...stash, [selectedDrug.name]: stash[selectedDrug.name] - quantity });
+        if (stash[selectedDrug.name] >= qty) {
+          setCash(cash + selectedDrug.price * qty);
+          setStash({ ...stash, [selectedDrug.name]: stash[selectedDrug.name] - qty });
         } else {
           setEventMessage("Not enough stash to sell this quantity.");
         }
@@ -396,18 +397,19 @@ const App: React.FC = () => {
           {selectedDrug && (
             <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-75">
               <div className="bg-purple-900 p-8 rounded">
+                <p className="mb-4 text-gray-300">Available Cash: ${cash.toLocaleString()}</p>
                 <p className="mb-4 text-gray-300">{isBuying ? "Buy" : "Sell"} {selectedDrug.name} at ${selectedDrug.price.toLocaleString()} each</p>
                 <input
                   type="number"
                   value={quantity}
-                  onChange={(e) => setQuantity(Number(e.target.value))}
+                  onChange={(e) => setQuantity(e.target.value === "" ? "" : Number(e.target.value))}
                   className="w-full p-2 mb-4 bg-purple-800 text-white rounded"
                   min="1"
                 />
                 <div className="flex gap-2">
                   <button
                     onClick={handleConfirm}
-                    className="bg-purple-600 hover:bg-purple-700 text-white font-bold py-2 px-4 rounded transition-all duration-300 transform hover:scale-105"
+                    className={`${isBuying ? 'bg-green-600 hover:bg-green-700' : 'bg-red-600 hover:bg-red-700'} text-white font-bold py-2 px-4 rounded transition-all duration-300 transform hover:scale-105`}
                   >
                     {isBuying ? "Buy" : "Sell"}
                   </button>

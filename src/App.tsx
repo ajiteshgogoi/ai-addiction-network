@@ -172,7 +172,7 @@ const App: React.FC = () => {
           <p className="mb-8 text-gray-300">
             🤑 Buy low in one location, sell high in another. And avoid government crackdowns as you race to amass the ultimate fortune!
           </p>
-          <p className="mb-8 text-gray-300">Can you dominate the black market and become the AI Tycoon?</p>
+          <p className="mb-8 text-gray-300">Can you dominate the black market in 30 days and become the next AI Tycoon?</p>
           <div className="mb-8">
             <table className="w-full border-collapse border border-purple-500">
               <thead>
@@ -240,7 +240,7 @@ const App: React.FC = () => {
                     <td className="p-2 border border-purple-500">${drug.price.toLocaleString()}</td>
                     <td className="p-2 border border-purple-500">{stash[drug.name]}</td>
                     <td className="p-2 border border-purple-500">
-                      <div className="flex gap-2">
+                      <div className="flex flex-col sm:flex-row gap-2">
                         <button
                           onClick={() => handleBuy(drug)}
                           className="bg-green-600 hover:bg-green-700 text-white font-bold py-1 px-2 rounded transition-all duration-300 transform hover:scale-105"

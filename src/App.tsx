@@ -81,22 +81,44 @@ const App: React.FC = () => {
   const [eventMessage, setEventMessage] = useState<string | null>(null);
   const [specialEvent, setSpecialEvent] = useState<{ drug: string; location: string } | null>(null);
   const [cheapDrugEvent, setCheapDrugEvent] = useState<{ drug: string; location: string } | null>(null);
+  const [selectedDrug, setSelectedDrug] = useState<Drug | null>(null);
+  const [quantity, setQuantity] = useState(1);
+  const [isBuying, setIsBuying] = useState(false);
 
   const handleBuy = (drug: Drug) => {
-    const totalStash = Object.values(stash).reduce((acc, curr) => acc + curr, 0);
-    if (cash >= drug.price && totalStash < 100) {
-      setCash(Math.max(0, cash - drug.price));
-      setStash({ ...stash, [drug.name]: stash[drug.name] + 1 });
-    } else if (totalStash >= 100) {
-      setEventMessage("Inventory limit reached! You cannot buy more drugs.");
-    }
+    setSelectedDrug(drug);
+    setIsBuying(true);
   };
 
   const handleSell = (drug: Drug) => {
-    if (stash[drug.name] > 0) {
-      setCash(cash + drug.price);
-      setStash({ ...stash, [drug.name]: stash[drug.name] - 1 });
+    setSelectedDrug(drug);
+    setIsBuying(false);
+  };
+
+  const handleConfirm = () => {
+    if (selectedDrug) {
+      if (isBuying) {
+        const totalCost = selectedDrug.price * quantity;
+        const totalStash = Object.values(stash).reduce((acc, curr) => acc + curr, 0);
+        if (cash >= totalCost && totalStash + quantity <= 100) {
+          setCash(Math.max(0, cash - totalCost));
+          setStash({ ...stash, [selectedDrug.name]: stash[selectedDrug.name] + quantity });
+        } else if (totalStash + quantity > 100) {
+          setEventMessage("Inventory limit reached! You cannot buy more drugs.");
+        } else {
+          setEventMessage("Not enough cash to buy this quantity.");
+        }
+      } else {
+        if (stash[selectedDrug.name] >= quantity) {
+          setCash(cash + selectedDrug.price * quantity);
+          setStash({ ...stash, [selectedDrug.name]: stash[selectedDrug.name] - quantity });
+        } else {
+          setEventMessage("Not enough stash to sell this quantity.");
+        }
+      }
     }
+    setSelectedDrug(null);
+    setQuantity(1);
   };
 
   const handleTravel = (location: string) => {
@@ -368,6 +390,34 @@ const App: React.FC = () => {
                 >
                   Close
                 </button>
+              </div>
+            </div>
+          )}
+          {selectedDrug && (
+            <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-75">
+              <div className="bg-purple-900 p-8 rounded">
+                <p className="mb-4 text-gray-300">{isBuying ? "Buy" : "Sell"} {selectedDrug.name} at ${selectedDrug.price.toLocaleString()} each</p>
+                <input
+                  type="number"
+                  value={quantity}
+                  onChange={(e) => setQuantity(Number(e.target.value))}
+                  className="w-full p-2 mb-4 bg-purple-800 text-white rounded"
+                  min="1"
+                />
+                <div className="flex gap-2">
+                  <button
+                    onClick={handleConfirm}
+                    className="bg-purple-600 hover:bg-purple-700 text-white font-bold py-2 px-4 rounded transition-all duration-300 transform hover:scale-105"
+                  >
+                    {isBuying ? "Buy" : "Sell"}
+                  </button>
+                  <button
+                    onClick={() => setSelectedDrug(null)}
+                    className="bg-gray-600 hover:bg-gray-700 text-white font-bold py-2 px-4 rounded transition-all duration-300 transform hover:scale-105"
+                  >
+                    Cancel
+                  </button>
+                </div>
               </div>
             </div>
           )}

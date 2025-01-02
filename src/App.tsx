@@ -224,7 +224,7 @@ const App: React.FC = () => {
             <p>Current Location: {currentLocation}</p>
           </div>
           <div className="overflow-x-auto">
-            <table className="w-full min-w-[600px] mb-8 border-collapse border border-purple-500">
+            <table className="w-full mb-8 border-collapse border border-purple-500">
               <thead>
                 <tr className="bg-purple-900">
                   <th className="p-2 border border-purple-500 text-left">Drug</th>

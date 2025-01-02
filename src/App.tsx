@@ -217,22 +217,22 @@ const App: React.FC = () => {
             </div>
             <p>Current Location: {currentLocation}</p>
           </div>
-          <table className="w-full mb-8">
+          <table className="w-full mb-8 border-collapse border border-gray-700">
             <thead>
-              <tr>
-                <th className="text-left">Drug</th>
-                <th className="text-left">Price</th>
-                <th className="text-left">Inventory</th>
-                <th className="text-left">Actions</th>
+              <tr className="bg-gray-800">
+                <th className="p-2 border border-gray-700 text-left">Drug</th>
+                <th className="p-2 border border-gray-700 text-left">Price</th>
+                <th className="p-2 border border-gray-700 text-left">Inventory</th>
+                <th className="p-2 border border-gray-700 text-left">Actions</th>
               </tr>
             </thead>
             <tbody>
               {drugPrices.map((drug, index) => (
                 <tr key={index} className="border-b border-gray-700">
-                  <td className="py-2">{drug.name}</td>
-                  <td className="py-2">${drug.price.toLocaleString()}</td>
-                  <td className="py-2">{inventory[drug.name]}</td>
-                  <td className="py-2">
+                  <td className="p-2 border border-gray-700">{drug.name}</td>
+                  <td className="p-2 border border-gray-700">${drug.price.toLocaleString()}</td>
+                  <td className="p-2 border border-gray-700">{inventory[drug.name]}</td>
+                  <td className="p-2 border border-gray-700">
                     <button
                       onClick={() => handleBuy(drug)}
                       className="bg-green-500 hover:bg-green-700 text-white font-bold py-1 px-2 rounded mr-2"

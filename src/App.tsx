@@ -123,6 +123,20 @@ const App: React.FC = () => {
             setCash(cash - penalty);
           },
         },
+        {
+          message: "<Drug Name> is selling at crazy low rates!",
+          effect: () => {
+            const randomDrug = initialDrugs[Math.floor(Math.random() * initialDrugs.length)];
+            const drugPriceRange = drugPriceRanges.find(range => range.name === randomDrug.name);
+            if (drugPriceRange) {
+              const newPrice = Math.floor(drugPriceRange.min * 0.5); // 50% of the minimum price
+              setDrugPrices(prevPrices => prevPrices.map(drug => 
+                drug.name === randomDrug.name ? { ...drug, price: newPrice } : drug
+              ));
+              setEventMessage(`${randomDrug.name} is selling at crazy low rates!`);
+            }
+          },
+        },
       ];
       const randomEvent = events[Math.floor(Math.random() * events.length)];
       setEventMessage(randomEvent.message);

@@ -63,7 +63,7 @@ const generateDrugPrices = (): Drug[] => {
 
 const App: React.FC = () => {
   const [cash, setCash] = useState(2500);
-  const [inventory, setInventory] = useState<{ [key: string]: number }>({
+  const [stash, setStash] = useState<{ [key: string]: number }>({
     "Lust Forge": 0,
     "Euphoria Hit": 0,
     "Rage X": 0,
@@ -81,14 +81,14 @@ const App: React.FC = () => {
   const handleBuy = (drug: Drug) => {
     if (cash >= drug.price) {
       setCash(cash - drug.price);
-      setInventory({ ...inventory, [drug.name]: inventory[drug.name] + 1 });
+      setStash({ ...stash, [drug.name]: stash[drug.name] + 1 });
     }
   };
 
   const handleSell = (drug: Drug) => {
-    if (inventory[drug.name] > 0) {
+    if (stash[drug.name] > 0) {
       setCash(cash + drug.price);
-      setInventory({ ...inventory, [drug.name]: inventory[drug.name] - 1 });
+      setStash({ ...stash, [drug.name]: stash[drug.name] - 1 });
     }
   };
 
@@ -100,11 +100,11 @@ const App: React.FC = () => {
     if (Math.random() < 0.3) {
       const events = [
         {
-          message: "Government Crackdown! You lost some inventory.",
+          message: "Government Crackdown! You lost some stash.",
           effect: () => {
             const randomDrug = initialDrugs[Math.floor(Math.random() * initialDrugs.length)].name;
             const penalty = Math.floor(Math.random() * 5) + 1;
-            setInventory({ ...inventory, [randomDrug]: Math.max(0, inventory[randomDrug] - penalty) });
+            setStash({ ...stash, [randomDrug]: Math.max(0, stash[randomDrug] - penalty) });
           },
         },
         {
@@ -134,7 +134,7 @@ const App: React.FC = () => {
 
   const handleRestart = () => {
     setCash(2500);
-    setInventory({
+    setStash({
       "Lust Forge": 0,
       "Euphoria Hit": 0,
       "Rage X": 0,
@@ -229,7 +229,7 @@ const App: React.FC = () => {
                 <tr className="bg-purple-900">
                   <th className="p-2 border border-purple-500 text-left">Drug</th>
                   <th className="p-2 border border-purple-500 text-left">Price</th>
-                  <th className="p-2 border border-purple-500 text-left">Inventory</th>
+                  <th className="p-2 border border-purple-500 text-left">Stash</th>
                   <th className="p-2 border border-purple-500 text-left">Actions</th>
                 </tr>
               </thead>
@@ -238,7 +238,7 @@ const App: React.FC = () => {
                   <tr key={index} className="border-b border-purple-500">
                     <td className="p-2 border border-purple-500">{drug.name}</td>
                     <td className="p-2 border border-purple-500">${drug.price.toLocaleString()}</td>
-                    <td className="p-2 border border-purple-500">{inventory[drug.name]}</td>
+                    <td className="p-2 border border-purple-500">{stash[drug.name]}</td>
                     <td className="p-2 border border-purple-500">
                       <button
                         onClick={() => handleBuy(drug)}

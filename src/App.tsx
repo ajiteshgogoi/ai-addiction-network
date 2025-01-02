@@ -28,7 +28,9 @@ const locations: string[] = [
 ];
 
 const getRandomPrice = (min: number, max: number): number => {
-  return Math.floor(Math.random() * (max - min + 1)) + min;
+  const random = Math.random();
+  const bias = random < 0.5 ? Math.pow(random, 2) : 1 - Math.pow(1 - random, 2);
+  return Math.floor(bias * (max - min + 1)) + min;
 };
 
 const generateDrugPrices = (): Drug[] => {

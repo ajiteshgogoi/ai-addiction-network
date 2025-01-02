@@ -159,6 +159,9 @@ const App: React.FC = () => {
     { name: "Life Loop", min: 1500, max: 6000 },
   ];
 
+  const sortedDrugPriceRanges = [...drugPriceRanges].sort((a, b) => b.min - a.min);
+  const sortedDrugPrices = [...drugPrices].sort((a, b) => b.price - a.price);
+
   return (
     <div className="flex flex-col items-center justify-center min- bg-gray-900 text-white p-4 font-mono">
       {!gameStarted ? (
@@ -182,7 +185,7 @@ const App: React.FC = () => {
                 </tr>
               </thead>
               <tbody>
-                {drugPriceRanges.map((drug, index) => (
+                {sortedDrugPriceRanges.map((drug, index) => (
                   <tr key={index} className="border-b border-purple-500">
                     <td className="p-2 border border-purple-500">{drug.name}</td>
                     <td className="p-2 border border-purple-500">${drug.min} - ${drug.max}</td>
@@ -234,7 +237,7 @@ const App: React.FC = () => {
                 </tr>
               </thead>
               <tbody>
-                {drugPrices.map((drug, index) => (
+                {sortedDrugPrices.map((drug, index) => (
                   <tr key={index} className="border-b border-purple-500">
                     <td className="p-2 border border-purple-500">{drug.name}</td>
                     <td className="p-2 border border-purple-500">${drug.price.toLocaleString()}</td>

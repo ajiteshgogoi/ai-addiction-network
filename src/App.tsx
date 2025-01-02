@@ -84,6 +84,8 @@ const App: React.FC = () => {
   const [selectedDrug, setSelectedDrug] = useState<Drug | null>(null);
   const [quantity, setQuantity] = useState<number | string>(1);
   const [isBuying, setIsBuying] = useState(false);
+  const [inventoryCapacity, setInventoryCapacity] = useState(100);
+  const [inventoryUpgradeCount, setInventoryUpgradeCount] = useState(0);
 
   const handleBuy = (drug: Drug) => {
     setSelectedDrug(drug);
@@ -101,10 +103,10 @@ const App: React.FC = () => {
       if (isBuying) {
         const totalCost = selectedDrug.price * qty;
         const totalStash = Object.values(stash).reduce((acc, curr) => acc + curr, 0);
-        if (cash >= totalCost && totalStash + qty <= 100) {
+        if (cash >= totalCost && totalStash + qty <= inventoryCapacity) {
           setCash(Math.max(0, cash - totalCost));
           setStash({ ...stash, [selectedDrug.name]: stash[selectedDrug.name] + qty });
-        } else if (totalStash + qty > 100) {
+        } else if (totalStash + qty > inventoryCapacity) {
           setEventMessage("Inventory limit reached! You cannot buy more drugs.");
         } else {
           setEventMessage("Not enough cash to buy this quantity.");
@@ -204,6 +206,20 @@ const App: React.FC = () => {
             setEventMessage(`Go to ${randomLocation} for cheap ${randomDrug}. Limited stash!`);
           },
         },
+        {
+          message: `Do you want to pay <amount> to increase your inventory capacity by 50 units?`,
+          effect: () => {
+            if (inventoryUpgradeCount < 3) {
+              const amount = Math.floor(Math.random() * (800 - 250 + 1)) + 250;
+              if (cash >= amount) {
+                setEventMessage(`Do you want to pay $${amount} to increase your inventory capacity by 50 units?`);
+                setSpecialEvent({ drug: "Inventory Upgrade", location: "" });
+                setCheapDrugEvent({ drug: "Inventory Upgrade", location: "" });
+                setSelectedDrug({ name: "Inventory Upgrade", price: amount });
+              }
+            }
+          },
+        },
       ];
       const randomEvent = events[Math.floor(Math.random() * events.length)];
       setEventMessage(randomEvent.message);
@@ -233,6 +249,8 @@ const App: React.FC = () => {
     setEventMessage(null);
     setSpecialEvent(null);
     setCheapDrugEvent(null);
+    setInventoryCapacity(100);
+    setInventoryUpgradeCount(0);
   };
 
   const drugPriceRanges = [
@@ -320,7 +338,7 @@ const App: React.FC = () => {
             </div>
             <div className="bg-purple-800 p-4 rounded-lg">
               <p className="text-sm text-purple-300">Inventory</p>
-              <p className="text-lg font-bold">{totalStash}/100</p>
+              <p className="text-lg font-bold">{totalStash}/{inventoryCapacity}</p>
             </div>
             <div className="bg-purple-800 p-4 rounded-lg">
               <p className="text-sm text-purple-300">Location</p>
@@ -385,16 +403,42 @@ const App: React.FC = () => {
             <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-75">
               <div className="bg-purple-900 p-8 rounded">
                 <p className="mb-4 text-gray-300">{eventMessage}</p>
-                <button
-                  onClick={() => setEventMessage(null)}
-                  className="bg-purple-600 hover:bg-purple-700 text-white font-bold py-2 px-4 rounded transition-all duration-300 transform hover:scale-105"
-                >
-                  Close
-                </button>
+                {selectedDrug && selectedDrug.name === "Inventory Upgrade" ? (
+                  <div className="flex gap-2">
+                    <button
+                      onClick={() => {
+                        setCash(cash - selectedDrug.price);
+                        setInventoryCapacity(inventoryCapacity + 50);
+                        setInventoryUpgradeCount(inventoryUpgradeCount + 1);
+                        setEventMessage(null);
+                        setSelectedDrug(null);
+                      }}
+                      className="bg-green-600 hover:bg-green-700 text-white font-bold py-2 px-4 rounded transition-all duration-300 transform hover:scale-105"
+                    >
+                      Yes
+                    </button>
+                    <button
+                      onClick={() => {
+                        setEventMessage(null);
+                        setSelectedDrug(null);
+                      }}
+                      className="bg-red-600 hover:bg-red-700 text-white font-bold py-2 px-4 rounded transition-all duration-300 transform hover:scale-105"
+                    >
+                      No
+                    </button>
+                  </div>
+                ) : (
+                  <button
+                    onClick={() => setEventMessage(null)}
+                    className="bg-purple-600 hover:bg-purple-700 text-white font-bold py-2 px-4 rounded transition-all duration-300 transform hover:scale-105"
+                  >
+                    Close
+                  </button>
+                )}
               </div>
             </div>
           )}
-          {selectedDrug && (
+          {selectedDrug && selectedDrug.name !== "Inventory Upgrade" && (
             <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-75">
               <div className="bg-purple-900 p-8 rounded">
                 <p className="mb-4 text-gray-300">Available Cash: ${cash.toLocaleString()}</p>

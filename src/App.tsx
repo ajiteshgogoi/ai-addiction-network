@@ -80,6 +80,7 @@ const App: React.FC = () => {
   const [gameOver, setGameOver] = useState(false);
   const [eventMessage, setEventMessage] = useState<string | null>(null);
   const [specialEvent, setSpecialEvent] = useState<{ drug: string; location: string } | null>(null);
+  const [cheapDrugEvent, setCheapDrugEvent] = useState<{ drug: string; location: string } | null>(null);
 
   const handleBuy = (drug: Drug) => {
     if (cash >= drug.price) {
@@ -108,6 +109,15 @@ const App: React.FC = () => {
         ));
       }
       setSpecialEvent(null);
+    } else if (cheapDrugEvent && location === cheapDrugEvent.location) {
+      const drugPriceRange = drugPriceRanges.find(range => range.name === cheapDrugEvent.drug);
+      if (drugPriceRange) {
+        const newPrice = Math.floor(drugPriceRange.min * 0.5); // 50% of the minimum price
+        setDrugPrices(prevPrices => prevPrices.map(drug =>
+          drug.name === cheapDrugEvent.drug ? { ...drug, price: newPrice } : drug
+        ));
+      }
+      setCheapDrugEvent(null);
     } else {
       setDrugPrices(generateDrugPrices());
     }
@@ -159,6 +169,15 @@ const App: React.FC = () => {
             setEventMessage(`Addicts in ${randomLocation} will pay anything for ${randomDrug}!`);
           },
         },
+        {
+          message: `Go to <Location Name> for cheap <Drug Name>. Limited stash!`,
+          effect: () => {
+            const randomDrug = initialDrugs[Math.floor(Math.random() * initialDrugs.length)].name;
+            const randomLocation = locations[Math.floor(Math.random() * locations.length)];
+            setCheapDrugEvent({ drug: randomDrug, location: randomLocation });
+            setEventMessage(`Go to ${randomLocation} for cheap ${randomDrug}. Limited stash!`);
+          },
+        },
       ];
       const randomEvent = events[Math.floor(Math.random() * events.length)];
       setEventMessage(randomEvent.message);
@@ -187,6 +206,7 @@ const App: React.FC = () => {
     setGameOver(false);
     setEventMessage(null);
     setSpecialEvent(null);
+    setCheapDrugEvent(null);
   };
 
   const drugPriceRanges = [

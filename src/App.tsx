@@ -83,9 +83,12 @@ const App: React.FC = () => {
   const [cheapDrugEvent, setCheapDrugEvent] = useState<{ drug: string; location: string } | null>(null);
 
   const handleBuy = (drug: Drug) => {
-    if (cash >= drug.price) {
+    const totalStash = Object.values(stash).reduce((acc, curr) => acc + curr, 0);
+    if (cash >= drug.price && totalStash < 100) {
       setCash(Math.max(0, cash - drug.price));
       setStash({ ...stash, [drug.name]: stash[drug.name] + 1 });
+    } else if (totalStash >= 100) {
+      setEventMessage("Inventory limit reached! You cannot buy more drugs.");
     }
   };
 
@@ -221,6 +224,8 @@ const App: React.FC = () => {
   const sortedDrugPriceRanges = [...drugPriceRanges].sort((a, b) => b.min - a.min);
   const sortedDrugPrices = [...drugPrices].sort((a, b) => b.price - a.price);
 
+  const totalStash = Object.values(stash).reduce((acc, curr) => acc + curr, 0);
+
   return (
     <div className="flex flex-col items-center justify-center min- bg-gray-900 text-white p-4 font-mono">
       {!gameStarted ? (
@@ -282,6 +287,7 @@ const App: React.FC = () => {
             <div>
               <p>Cash: ${cash.toLocaleString()}</p>
               <p>Day: {day}/30</p>
+              <p>Inventory: {totalStash}/100</p>
             </div>
             <p>Current Location: {currentLocation}</p>
           </div>

@@ -62,7 +62,7 @@ const generateDrugPrices = (): Drug[] => {
 };
 
 const App: React.FC = () => {
-  const [cash, setCash] = useState(5000);
+  const [cash, setCash] = useState(2500);
   const [inventory, setInventory] = useState<{ [key: string]: number }>({
     "Lust Forge": 0,
     "Euphoria Hit": 0,
@@ -101,15 +101,25 @@ const App: React.FC = () => {
       const events = [
         {
           message: "Government Crackdown! You lost some inventory.",
-          effect: () => setInventory({ ...inventory, "Lust Forge": 0 }),
+          effect: () => {
+            const randomDrug = initialDrugs[Math.floor(Math.random() * initialDrugs.length)].name;
+            const penalty = Math.floor(Math.random() * 5) + 1;
+            setInventory({ ...inventory, [randomDrug]: Math.max(0, inventory[randomDrug] - penalty) });
+          },
         },
         {
           message: "Addict Overdose! You lost some cash.",
-          effect: () => setCash(cash - 500),
+          effect: () => {
+            const penalty = Math.floor(Math.random() * 300) + 1;
+            setCash(cash - penalty);
+          },
         },
         {
           message: "Tech Glitch! You lost some cash.",
-          effect: () => setCash(cash - 300),
+          effect: () => {
+            const penalty = Math.floor(Math.random() * 300) + 1;
+            setCash(cash - penalty);
+          },
         },
       ];
       const randomEvent = events[Math.floor(Math.random() * events.length)];
@@ -123,7 +133,7 @@ const App: React.FC = () => {
   };
 
   const handleRestart = () => {
-    setCash(5000);
+    setCash(2500);
     setInventory({
       "Lust Forge": 0,
       "Euphoria Hit": 0,
@@ -144,20 +154,14 @@ const App: React.FC = () => {
     <div className="flex flex-col items-center justify-center min- bg-gray-900 text-white p-4">
       {!gameStarted ? (
         <div className="text-center">
-          <h1 className="text-4xl font-bold mb-4">
-            Welcome to AI Addiction Network!
-          </h1>
+          <h1 className="text-4xl font-bold mb-4">Welcome to AI Addiction Network!</h1>
           <p className="mb-8">
-            💉 In a world where virtual experiences rule, you're an underground
-            trader dealing in addictive AI simulations aka Virtual Drugs. 💊
+            💉 In a world where virtual experiences rule, you're an underground trader dealing in addictive AI simulations aka Virtual Drugs. 💊
           </p>
           <p className="mb-8">
-            🤑 Buy low in one location, sell high in another. And avoid government
-            crackdowns as you race to amass the ultimate fortune!
+            🤑 Buy low in one location, sell high in another. And avoid government crackdowns as you race to amass the ultimate fortune!
           </p>
-          <p className="mb-8">
-            Can you dominate the black market and become the AI Tycoon?
-          </p>
+          <p className="mb-8">Can you dominate the black market and become the AI Tycoon?</p>
           <button
             onClick={() => setGameStarted(true)}
             className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
@@ -168,9 +172,7 @@ const App: React.FC = () => {
       ) : gameOver ? (
         <div className="text-center">
           <h1 className="text-4xl font-bold mb-4">Game Over!</h1>
-          <p className="mb-8">
-            You earned ${cash.toLocaleString()}, AI Drug Tycoon!
-          </p>
+          <p className="mb-8">You earned ${cash.toLocaleString()}, AI Drug Tycoon!</p>
           <button
             onClick={handleRestart}
             className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"

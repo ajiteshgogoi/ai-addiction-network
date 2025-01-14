@@ -269,7 +269,7 @@ const App: React.FC = () => {
 
   return (
     <>
-      <div className="flex flex-col items-center justify-center min-h-screen bg-gray-900 text-white p-4 font-mono pb-40">
+      <div className="flex flex-col items-center justify-center min-h-screen bg-gray-900 text-white p-4 font-mono pb-20">
       {!gameStarted ? (
         <div className="text-center">
           <h1 className="text-4xl font-bold mb-8 bg-clip-text text-transparent bg-gradient-to-r from-purple-400 to-pink-600">
@@ -312,8 +312,8 @@ const App: React.FC = () => {
         </div>
       ) : gameOver ? (
         <div className="text-center">
-          <h1 className="text-4xl font-bold mb-4 bg-clip-text text-transparent bg-gradient-to-r from-purple-400 to-pink-600">
-            Game Over!
+          <h1 className="text-6xl uppercase font-bold mb-4 bg-clip-text text-transparent bg-gradient-to-r from-purple-400 to-pink-600">
+            GAME OVER!
           </h1>
           <p className="mb-8 text-gray-300">You earned ${cash.toLocaleString()}, AI Drug Tycoon!</p>
           <button
@@ -474,7 +474,7 @@ const App: React.FC = () => {
         </div>
       )}
     </div>
-    <div className="absolute bottom-0 w-full py-4 flex flex-col items-center bg-gray-900 z-10">
+    <div className="fixed bottom-0 w-full py-4 flex flex-col items-center bg-gray-900 z-10">
       <a 
         href="https://ko-fi.com/gogoi" 
         target="_blank" 

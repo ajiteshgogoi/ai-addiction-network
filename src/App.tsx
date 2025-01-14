@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from "react";
+import { getLeaderboard, addScore } from './api/leaderboard';
 
 interface Drug {
   name: string;
@@ -89,6 +90,28 @@ const App: React.FC = () => {
   const [playerName, setPlayerName] = useState("");
   const [showNameInput, setShowNameInput] = useState(false);
   const [leaderboard, setLeaderboard] = useState<{name: string, score: number}[]>([]);
+  const [leaderboardLoading, setLeaderboardLoading] = useState(true);
+  const [leaderboardError, setLeaderboardError] = useState<string | null>(null);
+  
+  // Load leaderboard on mount
+  useEffect(() => {
+    async function loadLeaderboard() {
+      try {
+        setLeaderboardLoading(true);
+        setLeaderboardError(null);
+        const data = await getLeaderboard();
+        console.log('Initial leaderboard data:', data);
+        setLeaderboard(data || []);
+      } catch (error) {
+        console.error('Failed to load leaderboard:', error);
+        setLeaderboardError('Failed to load leaderboard. Please try again later.');
+        setLeaderboard([]);
+      } finally {
+        setLeaderboardLoading(false);
+      }
+    }
+    loadLeaderboard();
+  }, []);
 
   const handleBuy = (drug: Drug) => {
     setSelectedDrug(drug);
@@ -178,7 +201,7 @@ const App: React.FC = () => {
           },
         },
         {
-          message: "<Drug Name> is selling at crazy low rates!",
+          message: `${initialDrugs[Math.floor(Math.random() * initialDrugs.length)].name} is selling at crazy low rates!`,
           effect: () => {
             const randomDrug = initialDrugs[Math.floor(Math.random() * initialDrugs.length)];
             const drugPriceRange = drugPriceRanges.find(range => range.name === randomDrug.name);
@@ -192,7 +215,7 @@ const App: React.FC = () => {
           },
         },
         {
-          message: `Addicts in <Location Name> will pay anything for <Drug Name>!`,
+          message: `Addicts in ${locations.filter(loc => loc !== currentLocation)[Math.floor(Math.random() * (locations.length - 1))]} will pay anything for ${initialDrugs[Math.floor(Math.random() * initialDrugs.length)].name}!`,
           effect: () => {
             const randomDrug = initialDrugs[Math.floor(Math.random() * initialDrugs.length)].name;
             const availableLocations = locations.filter(loc => loc !== currentLocation);
@@ -202,7 +225,7 @@ const App: React.FC = () => {
           },
         },
         {
-          message: `Go to <Location Name> for cheap <Drug Name>. Limited stash!`,
+          message: `Go to ${locations.filter(loc => loc !== currentLocation)[Math.floor(Math.random() * (locations.length - 1))]} for cheap ${initialDrugs[Math.floor(Math.random() * initialDrugs.length)].name}. Limited stash!`,
           effect: () => {
             const randomDrug = initialDrugs[Math.floor(Math.random() * initialDrugs.length)].name;
             const availableLocations = locations.filter(loc => loc !== currentLocation);
@@ -211,20 +234,20 @@ const App: React.FC = () => {
             setEventMessage(`Go to ${randomLocation} for cheap ${randomDrug}. Limited stash!`);
           },
         },
-        {
-          message: `Do you want to pay <amount> to increase your inventory capacity by 50 units?`,
-          effect: () => {
-            if (inventoryUpgradeCount < 3) {
-              const amount = Math.floor(Math.random() * (800 - 250 + 1)) + 250;
-              if (cash >= amount) {
-                setEventMessage(`Do you want to pay $${amount} to increase your inventory capacity by 50 units?`);
-                setSpecialEvent({ drug: "Inventory Upgrade", location: "" });
-                setCheapDrugEvent({ drug: "Inventory Upgrade", location: "" });
-                setSelectedDrug({ name: "Inventory Upgrade", price: amount });
-              }
-            }
-          },
-        },
+                {
+                  message: "Inventory upgrade available!",
+                  effect: () => {
+                    if (inventoryUpgradeCount < 3) {
+                      const amount = Math.floor(Math.random() * (800 - 250 + 1)) + 250;
+                      if (cash >= amount) {
+                        setEventMessage(`Do you want to pay $${amount} to increase your inventory capacity by 50 units?`);
+                        setSpecialEvent({ drug: "Inventory Upgrade", location: "" });
+                        setCheapDrugEvent({ drug: "Inventory Upgrade", location: "" });
+                        setSelectedDrug({ name: "Inventory Upgrade", price: amount });
+                      }
+                    }
+                  },
+                },
       ];
       const randomEvent = events[Math.floor(Math.random() * events.length)];
       setEventMessage(randomEvent.message);
@@ -240,7 +263,8 @@ const App: React.FC = () => {
     }
   };
 
-  const handleRestart = () => {
+  const handleRestart = async () => {
+    // Reset game state
     setCash(2500);
     setStash({
       "Lust Forge": 0,
@@ -260,6 +284,19 @@ const App: React.FC = () => {
     setCheapDrugEvent(null);
     setInventoryCapacity(100);
     setInventoryUpgradeCount(0);
+    
+    // Refresh leaderboard
+    try {
+      setLeaderboardLoading(true);
+      setLeaderboardError(null);
+      const data = await getLeaderboard();
+      setLeaderboard(data || []);
+    } catch (error) {
+      console.error('Failed to refresh leaderboard:', error);
+      setLeaderboardError('Failed to refresh leaderboard. Please try again later.');
+    } finally {
+      setLeaderboardLoading(false);
+    }
   };
 
   const drugPriceRanges = [
@@ -338,12 +375,35 @@ const App: React.FC = () => {
                   maxLength={20}
                 />
                 <button
-                  onClick={() => {
-                    const newLeaderboard = [...leaderboard, {name: playerName, score: cash}]
-                      .sort((a, b) => b.score - a.score)
-                      .slice(0, 10);
-                    setLeaderboard(newLeaderboard);
-                    setShowNameInput(false);
+                  onClick={async () => {
+                    if (!playerName.trim()) {
+                      setEventMessage('Please enter your name');
+                      return;
+                    }
+                    
+                    try {
+                      await addScore(playerName, cash);
+                      // Refresh leaderboard with retry logic
+                      let retries = 3;
+                      while (retries > 0) {
+                        try {
+                          const updatedLeaderboard = await getLeaderboard();
+                          if (updatedLeaderboard) {
+                            setLeaderboard(updatedLeaderboard);
+                            setShowNameInput(false);
+                            setEventMessage('Score submitted successfully!');
+                            break;
+                          }
+                        } catch (error) {
+                          console.error('Failed to fetch leaderboard:', error);
+                        }
+                        retries--;
+                        await new Promise(resolve => setTimeout(resolve, 500));
+                      }
+                    } catch (error) {
+                      console.error('Failed to save score:', error);
+                      setEventMessage('Failed to submit score. Please try again.');
+                    }
                   }}
                   className="bg-purple-600 hover:bg-purple-700 text-white font-bold py-2 px-4 rounded transition-all duration-300 transform hover:scale-105"
                 >
@@ -366,22 +426,68 @@ const App: React.FC = () => {
                     </tr>
                   </thead>
                   <tbody>
-                    {leaderboard.map((entry, index) => (
+                  {leaderboardLoading ? (
+                    <tr>
+                      <td colSpan={3} className="p-2 border border-purple-500 text-center">
+                        Loading leaderboard...
+                      </td>
+                    </tr>
+                  ) : leaderboardError ? (
+                    <tr>
+                      <td colSpan={3} className="p-2 border border-purple-500 text-center text-red-400">
+                        {leaderboardError}
+                      </td>
+                    </tr>
+                  ) : leaderboard.length > 0 ? (
+                    leaderboard.map((entry, index) => (
                       <tr key={index} className="border-b border-purple-500">
                         <td className="p-2 border border-purple-500">#{index + 1}</td>
                         <td className="p-2 border border-purple-500">{entry.name}</td>
                         <td className="p-2 border border-purple-500">${entry.score.toLocaleString()}</td>
                       </tr>
-                    ))}
+                    ))
+                  ) : (
+                    <tr>
+                      <td colSpan={3} className="p-2 border border-purple-500 text-center">
+                        No scores yet!
+                      </td>
+                    </tr>
+                  )}
                   </tbody>
                 </table>
               </div>
-              <button
-                onClick={handleRestart}
-                className="bg-purple-600 hover:bg-purple-700 text-white font-bold py-2 px-4 rounded transition-all duration-300 transform hover:scale-105"
-              >
-                Restart Game
-              </button>
+              <div className="flex gap-4">
+                <button
+                  onClick={handleRestart}
+                  className="bg-purple-600 hover:bg-purple-700 text-white font-bold py-2 px-4 rounded transition-all duration-300 transform hover:scale-105"
+                >
+                  Restart Game
+                </button>
+                <button
+                  onClick={async () => {
+                    try {
+                      setLeaderboardLoading(true);
+                      setLeaderboardError(null);
+                      const data = await getLeaderboard();
+                      if (!data) {
+                        throw new Error('No data received');
+                      }
+                      setLeaderboard(data);
+                      setEventMessage('Leaderboard updated successfully!');
+                    } catch (error) {
+                      console.error('Failed to refresh leaderboard:', error);
+                      setLeaderboardError('Failed to refresh leaderboard. Please try again later.');
+                      setEventMessage('Failed to refresh leaderboard');
+                    } finally {
+                      setLeaderboardLoading(false);
+                    }
+                  }}
+                  className="bg-purple-600 hover:bg-purple-700 text-white font-bold py-2 px-4 rounded transition-all duration-300 transform hover:scale-105"
+                  disabled={leaderboardLoading}
+                >
+                  {leaderboardLoading ? 'Refreshing...' : 'Refresh Leaderboard'}
+                </button>
+              </div>
             </>
           )}
         </div>

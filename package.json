@@ -3,6 +3,7 @@
   "version": "0.1.0",
   "private": true,
   "dependencies": {
+    "@supabase/supabase-js": "^2.47.13",
     "@testing-library/jest-dom": "^5.17.0",
     "@testing-library/react": "^13.4.0",
     "@testing-library/user-event": "^13.5.0",
@@ -46,7 +47,7 @@
   },
   "main": "/index.tsx",
   "devDependencies": {
-    "ajv": "^7.2.4",
-    "@babel/plugin-proposal-private-property-in-object": "latest"
+    "@babel/plugin-proposal-private-property-in-object": "latest",
+    "ajv": "^7.2.4"
   }
 }

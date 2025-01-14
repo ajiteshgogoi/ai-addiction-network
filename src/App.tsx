@@ -426,13 +426,7 @@ const App: React.FC = () => {
                     </tr>
                   </thead>
                   <tbody>
-                  {leaderboardLoading ? (
-                    <tr>
-                      <td colSpan={3} className="p-2 border border-purple-500 text-center">
-                        Loading leaderboard...
-                      </td>
-                    </tr>
-                  ) : leaderboardError ? (
+                  {leaderboardError ? (
                     <tr>
                       <td colSpan={3} className="p-2 border border-purple-500 text-center text-red-400">
                         {leaderboardError}
@@ -441,7 +435,9 @@ const App: React.FC = () => {
                   ) : leaderboard.length > 0 ? (
                     leaderboard.map((entry, index) => (
                       <tr key={index} className="border-b border-purple-500">
-                        <td className="p-2 border border-purple-500">#{index + 1}</td>
+                        <td className="p-2 border border-purple-500">
+                          {index === 0 ? '👑 #1' : `#${index + 1}`}
+                        </td>
                         <td className="p-2 border border-purple-500">{entry.name}</td>
                         <td className="p-2 border border-purple-500">${entry.score.toLocaleString()}</td>
                       </tr>
@@ -460,10 +456,12 @@ const App: React.FC = () => {
                 <button
                   onClick={handleRestart}
                   className="bg-purple-600 hover:bg-purple-700 text-white font-bold py-2 px-4 rounded transition-all duration-300 transform hover:scale-105"
+                  style={{ width: '200px', minWidth: '200px', height: '56px', lineHeight: '40px' }}
                 >
                   Restart Game
                 </button>
                 <button
+                  style={{ width: '200px', minWidth: '200px', height: '56px', lineHeight: '40px' }}
                   onClick={async () => {
                     try {
                       setLeaderboardLoading(true);

@@ -86,6 +86,9 @@ const App: React.FC = () => {
   const [isBuying, setIsBuying] = useState(false);
   const [inventoryCapacity, setInventoryCapacity] = useState(100);
   const [inventoryUpgradeCount, setInventoryUpgradeCount] = useState(0);
+  const [playerName, setPlayerName] = useState("");
+  const [showNameInput, setShowNameInput] = useState(false);
+  const [leaderboard, setLeaderboard] = useState<{name: string, score: number}[]>([]);
 
   const handleBuy = (drug: Drug) => {
     setSelectedDrug(drug);
@@ -228,6 +231,10 @@ const App: React.FC = () => {
 
     if (day >= 30) {
       setGameOver(true);
+      // Check if score qualifies for leaderboard
+      if (leaderboard.length < 10 || cash > leaderboard[leaderboard.length - 1].score) {
+        setShowNameInput(true);
+      }
     }
   };
 
@@ -316,12 +323,65 @@ const App: React.FC = () => {
             GAME OVER!
           </h1>
           <p className="mb-8 text-gray-300">You earned ${cash.toLocaleString()}, AI Drug Tycoon!</p>
-          <button
-            onClick={handleRestart}
-            className="bg-purple-600 hover:bg-purple-700 text-white font-bold py-2 px-4 rounded transition-all duration-300 transform hover:scale-105"
-          >
-            Restart Game
-          </button>
+
+          {showNameInput ? (
+            <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-75">
+              <div className="bg-purple-900 p-8 rounded-lg">
+                <p className="mb-4 text-gray-300">You made the top 10! Enter your name:</p>
+                <input
+                  type="text"
+                  value={playerName}
+                  onChange={(e) => setPlayerName(e.target.value)}
+                  className="w-full p-2 mb-4 bg-purple-800 text-white rounded"
+                  maxLength={20}
+                />
+                <button
+                  onClick={() => {
+                    const newLeaderboard = [...leaderboard, {name: playerName, score: cash}]
+                      .sort((a, b) => b.score - a.score)
+                      .slice(0, 10);
+                    setLeaderboard(newLeaderboard);
+                    setShowNameInput(false);
+                  }}
+                  className="bg-purple-600 hover:bg-purple-700 text-white font-bold py-2 px-4 rounded transition-all duration-300 transform hover:scale-105"
+                >
+                  Submit
+                </button>
+              </div>
+            </div>
+          ) : (
+            <>
+              <div className="mb-8">
+                <h2 className="text-2xl font-bold mb-4 bg-clip-text text-transparent bg-gradient-to-r from-purple-400 to-pink-600">
+                  Leaderboard
+                </h2>
+                <table className="w-full border-separate border-spacing-0 border border-purple-500 rounded-lg overflow-hidden rounded-lg">
+                  <thead>
+                    <tr className="bg-purple-900">
+                      <th className="p-2 border border-purple-500">Rank</th>
+                      <th className="p-2 border border-purple-500">Name</th>
+                      <th className="p-2 border border-purple-500">Score</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {leaderboard.map((entry, index) => (
+                      <tr key={index} className="border-b border-purple-500">
+                        <td className="p-2 border border-purple-500">#{index + 1}</td>
+                        <td className="p-2 border border-purple-500">{entry.name}</td>
+                        <td className="p-2 border border-purple-500">${entry.score.toLocaleString()}</td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+              <button
+                onClick={handleRestart}
+                className="bg-purple-600 hover:bg-purple-700 text-white font-bold py-2 px-4 rounded transition-all duration-300 transform hover:scale-105"
+              >
+                Restart Game
+              </button>
+            </>
+          )}
         </div>
       ) : (
         <div className="w-full max-w-4xl">

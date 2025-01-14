@@ -415,7 +415,7 @@ const App: React.FC = () => {
             <>
               <div className="mb-8">
                 <h2 className="text-2xl font-bold mb-4 bg-clip-text text-transparent bg-gradient-to-r from-purple-400 to-pink-600">
-                👑 Leaderboard
+                Leaderboard
                 </h2>
                 <table className="w-full border-separate border-spacing-0 border border-purple-500 rounded-lg overflow-hidden rounded-lg">
                   <thead>

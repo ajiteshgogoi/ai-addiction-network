@@ -452,16 +452,16 @@ const App: React.FC = () => {
                   </tbody>
                 </table>
               </div>
-              <div className="flex flex-wrap gap-4 w-full px-4">
+              <div className="flex flex-wrap gap-4 w-full px-4 justify-center">
                 <button
                   onClick={handleRestart}
-                  className="bg-purple-600 hover:bg-purple-700 text-white font-bold py-2 px-4 rounded transition-all duration-300 transform hover:scale-105 w-full sm:w-auto"
-                  style={{ minWidth: '200px', height: '56px', lineHeight: '40px' }}
+                  className="bg-purple-600 hover:bg-purple-700 text-white font-bold py-3 px-6 rounded-lg w-full sm:w-[200px] transition-all duration-300 transform hover:scale-105"
+                  style={{ height: '56px', lineHeight: '40px' }}
                 >
                   Restart Game
                 </button>
                 <button
-                  className="bg-purple-600 hover:bg-purple-700 text-white font-bold py-3 px-6 rounded-lg w-full sm:w-auto transition-all duration-300 transform hover:scale-105"
+                  className="bg-purple-600 hover:bg-purple-700 text-white font-bold py-3 px-6 rounded-lg w-full sm:w-[200px] transition-all duration-300 transform hover:scale-105"
                   onClick={async () => {
                     try {
                       setLeaderboardLoading(true);

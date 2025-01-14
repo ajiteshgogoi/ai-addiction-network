@@ -268,7 +268,8 @@ const App: React.FC = () => {
   const totalStash = Object.values(stash).reduce((acc, curr) => acc + curr, 0);
 
   return (
-    <div className="flex flex-col items-center justify-center min- bg-gray-900 text-white p-4 font-mono">
+    <>
+      <div className="flex flex-col items-center justify-center min- bg-gray-900 text-white p-4 font-mono">
       {!gameStarted ? (
         <div className="text-center">
           <h1 className="text-4xl font-bold mb-4 bg-clip-text text-transparent bg-gradient-to-r from-purple-400 to-pink-600">
@@ -285,7 +286,7 @@ const App: React.FC = () => {
           </p>
           <p className="mb-8 text-gray-300">Can you become the next AI Drug Tycoon?</p>
           <div className="mb-8">
-            <table className="w-full border-separate border-spacing-0 border border-purple-500 rounded-lg overflow-hidden">
+            <table className="w-full border-separate border-spacing-0 border border-purple-500 rounded-lg overflow-hidden rounded-lg">
               <thead>
                 <tr className="bg-purple-900">
                   <th className="p-2 border border-purple-500">Drug</th>
@@ -357,7 +358,7 @@ const App: React.FC = () => {
             </div>
           </div>
           <div className="overflow-x-auto">
-            <table className="w-full mb-8 border-separate border-spacing-0 border border-purple-500 rounded-lg overflow-hidden">
+            <table className="w-full mb-8 border-separate border-spacing-0 border border-purple-500 rounded-lg overflow-hidden rounded-lg">
               <thead>
                 <tr className="bg-purple-900">
                   <th className="p-2 border border-purple-500 text-left">Drug</th>
@@ -481,6 +482,19 @@ const App: React.FC = () => {
         </div>
       )}
     </div>
+    <div className="mt-auto py-4 flex flex-col items-center">
+      <a 
+        href="https://ko-fi.com/gogoi" 
+        target="_blank" 
+        rel="noopener noreferrer"
+        className="bg-[#f5f5f5] hover:bg-[#e0e0e0] text-gray-800 font-bold py-2 px-4 rounded-lg shadow-md flex items-center gap-2 transition-colors duration-300"
+      >
+      <img src="https://storage.ko-fi.com/cdn/cup-border.png" alt="Ko-fi" className="w-6 h-6" />
+      Buy Me a Coffee
+      </a>
+      <p className="text-gray-400 text-sm mt-2">© ajitesh gogoi</p>
+    </div>
+    </>
   );
 };
 

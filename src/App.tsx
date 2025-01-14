@@ -285,7 +285,7 @@ const App: React.FC = () => {
           </p>
           <p className="mb-8 text-gray-300">Can you become the next AI Drug Tycoon?</p>
           <div className="mb-8">
-            <table className="w-full border-collapse border border-purple-500">
+            <table className="w-full border-collapse border border-purple-500 rounded">
               <thead>
                 <tr className="bg-purple-900">
                   <th className="p-2 border border-purple-500">Drug</th>
@@ -304,10 +304,18 @@ const App: React.FC = () => {
           </div>
           <button
             onClick={() => setGameStarted(true)}
-            className="bg-purple-600 hover:bg-purple-700 text-white font-bold py-2 px-4 rounded transition-all duration-300 transform hover:scale-105"
+            className="bg-purple-600 hover:bg-purple-700 text-white font-bold text-2xl py-4 px-8 rounded-lg transition-all duration-300 transform hover:scale-105"
           >
             Start Game
           </button>
+          <div className="mt-8 text-gray-300">
+            <p className="mb-2">Controls:</p>
+            <ul className="list-disc list-inside">
+              <li>Click drug names to buy/sell</li>
+              <li>Travel between cities to find better prices</li>
+              <li>Watch out for random events!</li>
+            </ul>
+          </div>
         </div>
       ) : gameOver ? (
         <div className="text-center">
@@ -328,25 +336,25 @@ const App: React.FC = () => {
             AI Addiction Network
           </h1>
           <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 mb-8 text-gray-300">
-            <div className="bg-purple-800 p-4 rounded-lg">
+            <div className="bg-purple-800 p-4 rounded">
               <p className="text-sm text-purple-300">Cash</p>
               <p className="text-lg font-bold">${cash.toLocaleString()}</p>
             </div>
-            <div className="bg-purple-800 p-4 rounded-lg">
+            <div className="bg-purple-800 p-4 rounded">
               <p className="text-sm text-purple-300">Day</p>
               <p className="text-lg font-bold">{day}/30</p>
             </div>
-            <div className="bg-purple-800 p-4 rounded-lg">
+            <div className="bg-purple-800 p-4 rounded">
               <p className="text-sm text-purple-300">Inventory</p>
               <p className="text-lg font-bold">{totalStash}/{inventoryCapacity}</p>
             </div>
-            <div className="bg-purple-800 p-4 rounded-lg">
+            <div className="bg-purple-800 p-4 rounded">
               <p className="text-sm text-purple-300">Location</p>
               <p className="text-lg font-bold">{currentLocation}</p>
             </div>
           </div>
           <div className="overflow-x-auto">
-            <table className="w-full mb-8 border-collapse border border-purple-500">
+            <table className="w-full mb-8 border-collapse border border-purple-500 rounded">
               <thead>
                 <tr className="bg-purple-900">
                   <th className="p-2 border border-purple-500 text-left">Drug</th>
@@ -393,7 +401,7 @@ const App: React.FC = () => {
                 <button
                   key={index}
                   onClick={() => handleTravel(location)}
-                  className="bg-purple-600 hover:bg-purple-700 text-white font-bold py-3 px-6 rounded flex-1 text-center transition-all duration-300 transform hover:scale-105"
+                  className="bg-purple-600 hover:bg-purple-700 text-white font-bold py-3 px-6 rounded-lg flex-1 text-center transition-all duration-300 transform hover:scale-105"
                 >
                   {location}
                 </button>
@@ -401,7 +409,7 @@ const App: React.FC = () => {
           </div>
           {eventMessage && (
             <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-75">
-              <div className="bg-purple-900 p-8 rounded">
+              <div className="bg-purple-900 p-8 rounded-lg">
                 <p className="mb-4 text-gray-300">{eventMessage}</p>
                 {selectedDrug && selectedDrug.name === "Inventory Upgrade" ? (
                   <div className="flex gap-2">

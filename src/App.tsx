@@ -357,11 +357,11 @@ const App: React.FC = () => {
           </button>
         </div>
       ) : gameOver ? (
-        <div className="text-center">
-          <h1 className="text-6xl uppercase font-bold mb-4 bg-clip-text text-transparent bg-gradient-to-r from-purple-400 to-pink-600">
+        <div className="text-center w-full px-4">
+          <h1 className="text-4xl md:text-6xl uppercase font-bold mb-4 bg-clip-text text-transparent bg-gradient-to-r from-purple-400 to-pink-600">
             GAME OVER!
           </h1>
-          <p className="mb-8 text-gray-300">You earned ${cash.toLocaleString()}, AI Drug Tycoon!</p>
+          <p className="mb-8 text-gray-300 text-lg md:text-base">You earned ${cash.toLocaleString()}, AI Drug Tycoon!</p>
 
           {showNameInput ? (
             <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-75">
@@ -461,7 +461,7 @@ const App: React.FC = () => {
                   Restart Game
                 </button>
                 <button
-                  style={{ width: '200px', minWidth: '200px', height: '56px', lineHeight: '40px' }}
+                  className="bg-purple-600 hover:bg-purple-700 text-white font-bold py-3 px-6 rounded-lg w-full md:w-auto transition-all duration-300 transform hover:scale-105"
                   onClick={async () => {
                     try {
                       setLeaderboardLoading(true);
@@ -480,7 +480,6 @@ const App: React.FC = () => {
                       setLeaderboardLoading(false);
                     }
                   }}
-                  className="bg-purple-600 hover:bg-purple-700 text-white font-bold py-2 px-4 rounded transition-all duration-300 transform hover:scale-105"
                   disabled={leaderboardLoading}
                 >
                   {leaderboardLoading ? 'Refreshing...' : 'Refresh Leaderboard'}

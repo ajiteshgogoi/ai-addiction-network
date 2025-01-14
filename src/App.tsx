@@ -269,19 +269,19 @@ const App: React.FC = () => {
 
   return (
     <>
-      <div className="flex flex-col items-center justify-center min- bg-gray-900 text-white p-4 font-mono">
+      <div className="flex flex-col items-center justify-center min-h-screen bg-gray-900 text-white p-4 font-mono pb-40">
       {!gameStarted ? (
         <div className="text-center">
-          <h1 className="text-4xl font-bold mb-4 bg-clip-text text-transparent bg-gradient-to-r from-purple-400 to-pink-600">
+          <h1 className="text-4xl font-bold mb-8 bg-clip-text text-transparent bg-gradient-to-r from-purple-400 to-pink-600">
             Welcome to AI Addiction Network!
           </h1>
-          <p className="mb-8 text-gray-300">
+          <p className="mb-4 text-gray-300">
             💉 In a world where virtual experiences rule, you're an underground trader dealing in addictive AI simulations aka Virtual Drugs. 💊
           </p>
-          <p className="mb-8 text-gray-300">
+          <p className="mb-4 text-gray-300">
             🤑 Buy low in one location, sell high in another. Avoid government crackdowns as you race to amass the ultimate fortune.
           </p>
-          <p className="mb-8 text-gray-300">
+          <p className="mb-4 text-gray-300">
            💰 You have 30 days to dominate the black market and make as much money as possible! 💲
           </p>
           <p className="mb-8 text-gray-300">Can you become the next AI Drug Tycoon?</p>
@@ -305,18 +305,10 @@ const App: React.FC = () => {
           </div>
           <button
             onClick={() => setGameStarted(true)}
-            className="bg-purple-600 hover:bg-purple-700 text-white font-bold text-2xl py-4 px-8 rounded-lg transition-all duration-300 transform hover:scale-105"
+            className="bg-purple-600 hover:bg-purple-700 text-white font-bold text-2xl py-4 px-8 rounded-lg transition-all duration-300 transform hover:scale-105 mb-14"
           >
             Start Game
           </button>
-          <div className="mt-8 text-gray-300">
-            <p className="mb-2">Controls:</p>
-            <ul className="list-disc list-inside">
-              <li>Click drug names to buy/sell</li>
-              <li>Travel between cities to find better prices</li>
-              <li>Watch out for random events!</li>
-            </ul>
-          </div>
         </div>
       ) : gameOver ? (
         <div className="text-center">
@@ -482,7 +474,7 @@ const App: React.FC = () => {
         </div>
       )}
     </div>
-    <div className="mt-auto py-4 flex flex-col items-center">
+    <div className="absolute bottom-0 w-full py-4 flex flex-col items-center bg-gray-900 z-10">
       <a 
         href="https://ko-fi.com/gogoi" 
         target="_blank" 

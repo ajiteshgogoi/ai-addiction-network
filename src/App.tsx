@@ -456,13 +456,13 @@ const App: React.FC = () => {
                 <button
                   onClick={handleRestart}
                   className="bg-purple-600 hover:bg-purple-700 text-white font-bold py-3 px-6 rounded-lg w-full sm:w-[200px] transition-all duration-300 transform hover:scale-105 text-center"
-                  style={{ height: '48px' }}
+                  style={{ height: '70px' }}
                 >
                   Restart Game
                 </button>
                 <button
                   className="bg-purple-600 hover:bg-purple-700 text-white font-bold py-3 px-6 rounded-lg w-full sm:w-[200px] transition-all duration-300 transform hover:scale-105 text-center"
-                  style={{ height: '48px' }}
+                  style={{ height: '70px' }}
                   onClick={async () => {
                     try {
                       setLeaderboardLoading(true);

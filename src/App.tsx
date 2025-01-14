@@ -327,7 +327,7 @@ const App: React.FC = () => {
           {showNameInput ? (
             <div className="fixed inset-0 flex items-center justify-center bg-black bg-opacity-75">
               <div className="bg-purple-900 p-8 rounded-lg">
-                <p className="mb-4 text-gray-300">You made the top 10! Enter your name:</p>
+                <p className="mb-4 text-gray-300">👑 You made the top 10! Enter your name:</p>
                 <input
                   type="text"
                   value={playerName}
@@ -353,7 +353,7 @@ const App: React.FC = () => {
             <>
               <div className="mb-8">
                 <h2 className="text-2xl font-bold mb-4 bg-clip-text text-transparent bg-gradient-to-r from-purple-400 to-pink-600">
-                  Leaderboard
+                👑 Leaderboard
                 </h2>
                 <table className="w-full border-separate border-spacing-0 border border-purple-500 rounded-lg overflow-hidden rounded-lg">
                   <thead>

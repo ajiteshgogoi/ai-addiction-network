@@ -285,7 +285,7 @@ const App: React.FC = () => {
           </p>
           <p className="mb-8 text-gray-300">Can you become the next AI Drug Tycoon?</p>
           <div className="mb-8">
-            <table className="w-full border-collapse border border-purple-500 rounded">
+            <table className="w-full border-separate border-spacing-0 border border-purple-500 rounded-lg overflow-hidden">
               <thead>
                 <tr className="bg-purple-900">
                   <th className="p-2 border border-purple-500">Drug</th>
@@ -354,7 +354,7 @@ const App: React.FC = () => {
             </div>
           </div>
           <div className="overflow-x-auto">
-            <table className="w-full mb-8 border-collapse border border-purple-500 rounded">
+            <table className="w-full mb-8 border-separate border-spacing-0 border border-purple-500 rounded-lg overflow-hidden">
               <thead>
                 <tr className="bg-purple-900">
                   <th className="p-2 border border-purple-500 text-left">Drug</th>

@@ -195,7 +195,8 @@ const App: React.FC = () => {
           message: `Addicts in <Location Name> will pay anything for <Drug Name>!`,
           effect: () => {
             const randomDrug = initialDrugs[Math.floor(Math.random() * initialDrugs.length)].name;
-            const randomLocation = locations[Math.floor(Math.random() * locations.length)];
+            const availableLocations = locations.filter(loc => loc !== currentLocation);
+            const randomLocation = availableLocations[Math.floor(Math.random() * availableLocations.length)];
             setSpecialEvent({ drug: randomDrug, location: randomLocation });
             setEventMessage(`Addicts in ${randomLocation} will pay anything for ${randomDrug}!`);
           },
@@ -204,7 +205,8 @@ const App: React.FC = () => {
           message: `Go to <Location Name> for cheap <Drug Name>. Limited stash!`,
           effect: () => {
             const randomDrug = initialDrugs[Math.floor(Math.random() * initialDrugs.length)].name;
-            const randomLocation = locations[Math.floor(Math.random() * locations.length)];
+            const availableLocations = locations.filter(loc => loc !== currentLocation);
+            const randomLocation = availableLocations[Math.floor(Math.random() * availableLocations.length)];
             setCheapDrugEvent({ drug: randomDrug, location: randomLocation });
             setEventMessage(`Go to ${randomLocation} for cheap ${randomDrug}. Limited stash!`);
           },

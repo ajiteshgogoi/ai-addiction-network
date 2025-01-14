@@ -215,30 +215,30 @@ const App: React.FC = () => {
           },
         },
         {
-          message: `Addicts in ${locations.filter(loc => loc !== currentLocation)[Math.floor(Math.random() * (locations.length - 1))]} will pay anything for ${initialDrugs[Math.floor(Math.random() * initialDrugs.length)].name}!`,
+          message: `Addicts in ${locations.filter(loc => loc !== location)[Math.floor(Math.random() * (locations.filter(loc => loc !== location).length))]} will pay anything for ${initialDrugs[Math.floor(Math.random() * initialDrugs.length)].name}!`,
           effect: () => {
             const randomDrug = initialDrugs[Math.floor(Math.random() * initialDrugs.length)].name;
-            const availableLocations = locations.filter(loc => loc !== currentLocation);
+            const availableLocations = locations.filter(loc => loc !== location);
             const randomLocation = availableLocations[Math.floor(Math.random() * availableLocations.length)];
             setSpecialEvent({ drug: randomDrug, location: randomLocation });
             setEventMessage(`Addicts in ${randomLocation} will pay anything for ${randomDrug}!`);
           },
         },
         {
-          message: `Go to ${locations.filter(loc => loc !== currentLocation)[Math.floor(Math.random() * (locations.length - 1))]} for cheap ${initialDrugs[Math.floor(Math.random() * initialDrugs.length)].name}. Limited stash!`,
+          message: `Go to ${locations.filter(loc => loc !== location)[Math.floor(Math.random() * (locations.filter(loc => loc !== location).length))]} for cheap ${initialDrugs[Math.floor(Math.random() * initialDrugs.length)].name}. Limited stash!`,
           effect: () => {
             const randomDrug = initialDrugs[Math.floor(Math.random() * initialDrugs.length)].name;
-            const availableLocations = locations.filter(loc => loc !== currentLocation);
+            const availableLocations = locations.filter(loc => loc !== location);
             const randomLocation = availableLocations[Math.floor(Math.random() * availableLocations.length)];
             setCheapDrugEvent({ drug: randomDrug, location: randomLocation });
             setEventMessage(`Go to ${randomLocation} for cheap ${randomDrug}. Limited stash!`);
           },
         },
                 {
-                  message: "Inventory upgrade available!",
+                  message: `Do you want to pay ${Math.floor(Math.random() * (800 - 250 + 1)) + 250} to increase your inventory capacity by 50 units?`,
                   effect: () => {
                     if (inventoryUpgradeCount < 3) {
-                      const amount = Math.floor(Math.random() * (800 - 250 + 1)) + 250;
+                      const amount = Math.floor(Math.random() * (800 - 250 + 1)) + 250;                  
                       if (cash >= amount) {
                         setEventMessage(`Do you want to pay $${amount} to increase your inventory capacity by 50 units?`);
                         setSpecialEvent({ drug: "Inventory Upgrade", location: "" });

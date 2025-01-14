@@ -332,7 +332,10 @@ const App: React.FC = () => {
         </div>
       ) : (
         <div className="w-full max-w-4xl">
-          <h1 className="text-4xl font-bold mb-8 text-center bg-clip-text text-transparent bg-gradient-to-r from-purple-400 to-pink-600">
+          <h1 
+            className="text-4xl font-bold mb-8 text-center bg-clip-text text-transparent bg-gradient-to-r from-purple-400 to-pink-600 cursor-pointer hover:opacity-80 transition-opacity"
+            onClick={handleRestart}
+          >
             AI Addiction Network
           </h1>
           <div className="grid grid-cols-2 sm:grid-cols-4 gap-4 mb-8 text-gray-300">

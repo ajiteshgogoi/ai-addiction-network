@@ -239,12 +239,10 @@ const App: React.FC = () => {
                   effect: () => {
                     if (inventoryUpgradeCount < 3) {
                       const amount = Math.floor(Math.random() * (800 - 250 + 1)) + 250;
-                      if (cash >= amount) {
-                        setEventMessage(`Do you want to pay $${amount} to increase your inventory capacity by 50 units?`);
-                        setSpecialEvent({ drug: "Inventory Upgrade", location: "" });
-                        setCheapDrugEvent({ drug: "Inventory Upgrade", location: "" });
-                        setSelectedDrug({ name: "Inventory Upgrade", price: amount });
-                      }
+                      setEventMessage(`Do you want to pay $${amount} to increase your inventory capacity by 50 units?`);
+                      setSpecialEvent({ drug: "Inventory Upgrade", location: "" });
+                      setCheapDrugEvent({ drug: "Inventory Upgrade", location: "" });
+                      setSelectedDrug({ name: "Inventory Upgrade", price: amount });
                     }
                   },
                 }] : []),

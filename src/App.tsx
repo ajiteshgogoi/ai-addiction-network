@@ -234,11 +234,11 @@ const App: React.FC = () => {
             setEventMessage(`Go to ${randomLocation} for cheap ${randomDrug}. Limited stash!`);
           },
         },
-                {
+                ...(cash > 250 ? [{
                   message: `Do you want to pay ${Math.floor(Math.random() * (800 - 250 + 1)) + 250} to increase your inventory capacity by 50 units?`,
                   effect: () => {
                     if (inventoryUpgradeCount < 3) {
-                      const amount = Math.floor(Math.random() * (800 - 250 + 1)) + 250;                  
+                      const amount = Math.floor(Math.random() * (800 - 250 + 1)) + 250;
                       if (cash >= amount) {
                         setEventMessage(`Do you want to pay $${amount} to increase your inventory capacity by 50 units?`);
                         setSpecialEvent({ drug: "Inventory Upgrade", location: "" });
@@ -247,7 +247,7 @@ const App: React.FC = () => {
                       }
                     }
                   },
-                },
+                }] : []),
       ];
       const randomEvent = events[Math.floor(Math.random() * events.length)];
       setEventMessage(randomEvent.message);

@@ -648,7 +648,7 @@ const App: React.FC = () => {
       <img src="https://storage.ko-fi.com/cdn/cup-border.png" alt="Ko-fi" className="w-6 h-6" />
       Buy Me a Coffee
       </a>
-  <p className="text-gray-400 text-sm mt-4">© {new Date().getFullYear()} ajitesh gogoi. All rights reserved.</p>
+  <p className="text-gray-400 text-sm mt-4">© {new Date().getFullYear()} ajitesh gogoi</p>
     </div>
     </>
   );

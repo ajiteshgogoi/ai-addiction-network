@@ -2,7 +2,7 @@
 
 AI Addiction Network is a cyberpunk-themed trading simulation game where players become virtual AI drug tycoons. Trade synthetic digital drugs across global cities, manage your inventory, and build your empire while avoiding law enforcement.
 
-💊 **[Play Now](https://ai-addiction-network.vercel.app/)**
+💊 **[Play AI Addiction Network](https://ai-addiction-network.vercel.app/)**
 
 ## Key Features
 
